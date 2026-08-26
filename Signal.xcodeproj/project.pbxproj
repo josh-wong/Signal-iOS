@@ -2785,6 +2785,7 @@
 		D93830832A708E95006CDCDE /* UsernameChangeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93830822A708E95006CDCDE /* UsernameChangeDelegate.swift */; };
 		D93830852A784210006CDCDE /* UsernameApiClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93830842A784210006CDCDE /* UsernameApiClientImpl.swift */; };
 		D9388C912DA475230048D4F9 /* BackupSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9388C902DA4751F0048D4F9 /* BackupSettingsStore.swift */; };
+		4CECE49567666D085F485EF8 /* PanoramaMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF8951B0B55BD407281551 /* PanoramaMediaView.swift */; };
 		D9392DE02D88AA5800728C01 /* ZoomableMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9392DDF2D88AA5000728C01 /* ZoomableMediaView.swift */; };
 		D93964B62E038C7B00094117 /* BackupAttachmentUploadTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93964B52E038C7B00094117 /* BackupAttachmentUploadTracker.swift */; };
 		D93BDD942E43064500779BD8 /* BackupKeepKeySafeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D93BDD932E43063B00779BD8 /* BackupKeepKeySafeSheet.swift */; };
@@ -7136,6 +7137,7 @@
 		D93830842A784210006CDCDE /* UsernameApiClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameApiClientImpl.swift; sourceTree = "<group>"; };
 		D9388C902DA4751F0048D4F9 /* BackupSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupSettingsStore.swift; sourceTree = "<group>"; };
 		D938CD5F29283402006FB16A /* Paypal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paypal.swift; sourceTree = "<group>"; };
+		8FFF8951B0B55BD407281551 /* PanoramaMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanoramaMediaView.swift; sourceTree = "<group>"; };
 		D9392DDF2D88AA5000728C01 /* ZoomableMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableMediaView.swift; sourceTree = "<group>"; };
 		D93964B52E038C7B00094117 /* BackupAttachmentUploadTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupAttachmentUploadTracker.swift; sourceTree = "<group>"; };
 		D93BDD932E43063B00779BD8 /* BackupKeepKeySafeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupKeepKeySafeSheet.swift; sourceTree = "<group>"; };
@@ -13694,6 +13696,7 @@
 		D9392DDE2D88AA4900728C01 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				8FFF8951B0B55BD407281551 /* PanoramaMediaView.swift */,
 				D9392DDF2D88AA5000728C01 /* ZoomableMediaView.swift */,
 			);
 			path = Media;
@@ -16168,7 +16171,6 @@
 					};
 					453518671FC635DD00210559 = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = U68MSDN6DR;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -16220,7 +16222,6 @@
 						};
 					};
 					D221A0A9169C9E5F00537ABF = {
-						DevelopmentTeam = U68MSDN6DR;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D221A088169C9E5E00537ABF;
@@ -18283,6 +18284,7 @@
 				76896BFA28415B6B00F6C8D2 /* VideoTimelineView.swift in Sources */,
 				3402AA9F271D9E180084CBAE /* ViewOnceTooltip.swift in Sources */,
 				3402AA6A271D9DFC0084CBAE /* Wallpaper+SignalUI.swift in Sources */,
+				4CECE49567666D085F485EF8 /* PanoramaMediaView.swift in Sources */,
 				D9392DE02D88AA5800728C01 /* ZoomableMediaView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -20960,6 +20962,7 @@
 				CODE_SIGN_ENTITLEMENTS = SignalNSE/SignalNSE.entitlements;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -21065,6 +21068,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SignalNSE/SignalNSE.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -21121,6 +21125,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SignalNSE/SignalNSE.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -21165,6 +21170,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -21224,6 +21230,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -21290,6 +21297,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -21356,6 +21364,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -21405,6 +21414,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -21456,6 +21466,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -21514,6 +21525,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -21572,6 +21584,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -21615,6 +21628,7 @@
 				CODE_SIGN_ENTITLEMENTS = SignalShareExtension/SignalShareExtension.entitlements;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -21664,6 +21678,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = "SignalShareExtension/SignalShareExtension-AppStore.entitlements";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -21815,6 +21830,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Signal/Signal.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -21849,6 +21865,7 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Signal.app/Signal";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -21928,6 +21945,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SignalShareExtension/SignalShareExtension.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22076,6 +22094,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Signal/Signal.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Signal/test/Assets/input_video.mp4;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -22110,6 +22129,7 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Signal.app/Signal";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -22189,6 +22209,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = SignalShareExtension/SignalShareExtension.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -22448,6 +22469,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Signal/test/Assets/input_video.mp4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -22487,6 +22509,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Signal/Signal-AppStore.entitlements";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Signal/test/Assets/input_video.mp4;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -22521,6 +22544,7 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Signal.app/Signal";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -22580,6 +22604,7 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Signal.app/Signal";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 5QRXTJW8QA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -22644,6 +22669,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -22683,6 +22710,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -22722,6 +22751,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -22761,6 +22792,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -22805,6 +22838,8 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -22858,6 +22893,8 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -22918,6 +22955,8 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -22978,6 +23017,8 @@
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5QRXTJW8QA;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = 5QRXTJW8QA;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;

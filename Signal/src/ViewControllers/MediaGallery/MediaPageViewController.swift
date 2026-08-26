@@ -147,6 +147,9 @@ class MediaPageViewController: UIPageViewController {
         view.backgroundColor = .Signal.mediaBackground
 
         mediaInteractiveDismiss.addGestureRecognizer(to: view)
+        mediaInteractiveDismiss.shouldBeginDismissGesture = { [weak self] in
+            !(self?.currentViewController?.galleryItem.isPanorama ?? false)
+        }
 
         navigationItem.titleView = headerView
 

@@ -202,6 +202,9 @@
 /* Label shown by thumbnails of videos in the All Media view */
 "ALL_MEDIA_THUMBNAIL_LABEL_VIDEO" = "Video";
 
+/* Label shown over thumbnails of 360° panorama photos in the All Media view */
+"ALL_MEDIA_THUMBNAIL_LABEL_PANORAMA" = "360°";
+
 /* Title for the view of all your signal connections */
 "ALL_SIGNAL_CONNECTIONS_TITLE" = "All Connections";
 
@@ -519,6 +522,9 @@
 
 /* Short text label for a photo attachment, used for thread preview and on the lock screen */
 "ATTACHMENT_TYPE_PHOTO" = "Photo";
+
+/* Short text label for a 360° panorama photo attachment, used for thread preview and on the lock screen */
+"ATTACHMENT_TYPE_PANORAMA" = "360° Photo";
 
 /* Short text label for a video attachment, used for thread preview and on the lock screen */
 "ATTACHMENT_TYPE_VIDEO" = "Video";

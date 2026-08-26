@@ -11,6 +11,7 @@ enum PhotoGridItemType {
     case photo
     case animated
     case video(duration: TimeInterval?)
+    case panorama
 
     var localizedString: String {
         switch self {
@@ -24,6 +25,8 @@ enum PhotoGridItemType {
             } else {
                 return "\(CommonStrings.attachmentTypeVideo)"
             }
+        case .panorama:
+            return CommonStrings.attachmentTypePanorama
         }
     }
 
@@ -43,6 +46,11 @@ enum PhotoGridItemType {
             return OWSLocalizedString(
                 "ALL_MEDIA_THUMBNAIL_LABEL_VIDEO",
                 comment: "Label shown by thumbnails of videos in the All Media view",
+            )
+        case .panorama:
+            return OWSLocalizedString(
+                "ALL_MEDIA_THUMBNAIL_LABEL_PANORAMA",
+                comment: "Label shown over thumbnails of 360° panorama photos in the All Media view",
             )
         }
     }
@@ -167,7 +175,7 @@ class PhotoGridViewCell: UICollectionViewCell {
         switch itemType {
         case .video(.some(let duration)):
             caption = OWSFormat.localizedDurationString(from: duration)
-        case .animated:
+        case .animated, .panorama:
             caption = itemType.formattedType
         case .video(duration: nil), .photo:
             durationLabel?.isHidden = true

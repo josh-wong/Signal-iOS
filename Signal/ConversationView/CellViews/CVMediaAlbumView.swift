@@ -178,29 +178,74 @@ class CVMediaAlbumView: ManualStackViewWithLayer {
                 continue
             }
             let item = items[index]
-            guard item.hasCaption else {
-                continue
+
+            if item.hasCaption, let icon = UIImage(named: "media_album_caption") {
+                let iconView = CVImageView(image: icon)
+                itemView.addSubview(iconView)
+                itemView.addLayoutBlock { view in
+                    let inset: CGFloat = 6
+                    let x = (
+                        CurrentAppContext().isRTL
+                            ? view.width - (icon.size.width + inset)
+                            : inset,
+                    )
+                    iconView.frame = CGRect(
+                        x: x,
+                        y: inset,
+                        width: icon.size.width,
+                        height: icon.size.height,
+                    )
+                }
             }
-            guard let icon = UIImage(named: "media_album_caption") else {
-                owsFailDebug("Couldn't load icon.")
-                continue
+
+            if item.isPanorama {
+                addPanoramaBadge(to: itemView)
             }
-            let iconView = CVImageView(image: icon)
-            itemView.addSubview(iconView)
-            itemView.addLayoutBlock { view in
-                let inset: CGFloat = 6
-                let x = (
-                    CurrentAppContext().isRTL
-                        ? view.width - (icon.size.width + inset)
-                        : inset,
-                )
-                iconView.frame = CGRect(
-                    x: x,
-                    y: inset,
-                    width: icon.size.width,
-                    height: icon.size.height,
-                )
-            }
+        }
+    }
+
+    private func addPanoramaBadge(to itemView: CVMediaView) {
+        let badgeLabel = CVLabel()
+        badgeLabel.text = OWSLocalizedString(
+            "ALL_MEDIA_THUMBNAIL_LABEL_PANORAMA",
+            comment: "Label shown over thumbnails of 360° panorama photos in the All Media view",
+        )
+        badgeLabel.textColor = .white
+        badgeLabel.font = UIFont.semiboldFont(ofSize: 12)
+        badgeLabel.sizeToFit()
+
+        let horizontalPadding: CGFloat = 6
+        let verticalPadding: CGFloat = 3
+        let badgeSize = CGSize(
+            width: badgeLabel.frame.width + horizontalPadding * 2,
+            height: badgeLabel.frame.height + verticalPadding * 2,
+        )
+
+        let badgeBackground = UIView()
+        badgeBackground.backgroundColor = .ows_blackAlpha60
+        badgeBackground.layer.cornerRadius = badgeSize.height / 2
+        badgeBackground.clipsToBounds = true
+
+        itemView.addSubview(badgeBackground)
+        badgeBackground.addSubview(badgeLabel)
+        itemView.addLayoutBlock { view in
+            let inset: CGFloat = 6
+            let x = (
+                CurrentAppContext().isRTL
+                    ? inset
+                    : view.width - (badgeSize.width + inset)
+            )
+            // Top corner (opposite the caption icon) rather than bottom, to
+            // avoid overlapping the timestamp/read-receipt overlay rendered
+            // in the bottom-trailing corner of the last item in an album.
+            let y = inset
+            badgeBackground.frame = CGRect(x: x, y: y, width: badgeSize.width, height: badgeSize.height)
+            badgeLabel.frame = CGRect(
+                x: horizontalPadding,
+                y: verticalPadding,
+                width: badgeLabel.frame.width,
+                height: badgeLabel.frame.height,
+            )
         }
     }
 
@@ -627,6 +672,12 @@ struct CVMediaAlbumItem: Equatable {
     }
 
     let hasCaption: Bool
+
+    /// Whether this item's cached pixel dimensions look like an equirectangular
+    /// 360° panorama photo. Only ever true for downloaded, valid attachments.
+    var isPanorama: Bool {
+        attachmentStream?.isPanoramaCandidate ?? false
+    }
 
     /// This property will be non-zero if the attachment is valid.
     let mediaSize: CGSize

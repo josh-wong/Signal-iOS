@@ -261,6 +261,13 @@ public enum CommonStrings {
         )
     }
 
+    public static var attachmentTypePanorama: String {
+        OWSLocalizedString(
+            "ATTACHMENT_TYPE_PANORAMA",
+            comment: "Short text label for a 360° panorama photo attachment, used for thread preview and on the lock screen",
+        )
+    }
+
     public static var attachmentTypeVideo: String {
         OWSLocalizedString(
             "ATTACHMENT_TYPE_VIDEO",

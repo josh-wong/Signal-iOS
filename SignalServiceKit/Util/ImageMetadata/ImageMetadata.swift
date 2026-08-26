@@ -82,4 +82,22 @@ public struct ImageMetadata {
                 && hasAlpha
 
     }
+
+    public var isPanoramaCandidate: Bool {
+        Self.isPanoramaAspectRatio(pixelSize)
+    }
+
+    /// Equirectangular 360° photos (as produced by Ricoh Theta, Insta360, and
+    /// similar cameras) are conventionally exactly 2:1 (width:height). Unlike
+    /// XMP `GPano` metadata, this is a property of the projection itself, so
+    /// it survives resizing/recompression (e.g. Signal's own send pipeline,
+    /// which strips XMP from JPEGs). Tolerance accounts for minor encoder
+    /// rounding.
+    public static func isPanoramaAspectRatio(_ pixelSize: CGSize) -> Bool {
+        guard pixelSize.width > 0, pixelSize.height > 0 else {
+            return false
+        }
+        let ratio = Double(pixelSize.width) / Double(pixelSize.height)
+        return abs(ratio - 2.0) <= 0.04
+    }
 }

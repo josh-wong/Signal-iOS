@@ -430,7 +430,7 @@ private class RecentPhotoCell: UICollectionViewCell {
         switch itemType {
         case .video(let _duration?):
             duration = _duration
-        case .video(duration: nil), .animated, .photo:
+        case .video(duration: nil), .animated, .photo, .panorama:
             durationLabel?.isHidden = true
             durationLabelBackground?.isHidden = true
             return
@@ -493,7 +493,7 @@ private class RecentPhotoCell: UICollectionViewCell {
         switch item.type {
         case .animated:
             setContentTypeBadge(image: UIImage(imageLiteralResourceName: "gif-rectangle"))
-        case .photo, .video:
+        case .photo, .video, .panorama:
             setContentTypeBadge(image: nil)
         }
 

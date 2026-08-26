@@ -131,6 +131,8 @@ class MediaGalleryCellItemPhotoVideo: PhotoGridItem {
             )
         } else if galleryItem.isAnimated {
             return .animated
+        } else if galleryItem.isPanorama {
+            return .panorama
         } else {
             return .photo
         }

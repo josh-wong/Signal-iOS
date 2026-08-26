@@ -23,6 +23,16 @@ public class AttachmentStream {
     public var encryptedByteCount: UInt32 { info.encryptedByteCount }
     public var unencryptedByteCount: UInt32 { info.unencryptedByteCount }
     public var cachedMediaSizePixels: CGSize? { info.cachedMediaSizePixels }
+
+    /// Whether this attachment's cached pixel dimensions match the 2:1
+    /// aspect ratio conventional for equirectangular 360° photos. Cheap:
+    /// reads persisted `StreamInfo`, no decryption/decoding required.
+    public var isPanoramaCandidate: Bool {
+        guard contentType.isImage, let cachedMediaSizePixels else {
+            return false
+        }
+        return ImageMetadata.isPanoramaAspectRatio(cachedMediaSizePixels)
+    }
     public var cachedVideoDuration: TimeInterval? { info.cachedVideoDuration }
     public var cachedVideoStillFrameRelativeFilePath: String? { info.cachedVideoStillFrameRelativeFilePath }
     public var cachedAudioDuration: TimeInterval? { info.cachedAudioDuration }

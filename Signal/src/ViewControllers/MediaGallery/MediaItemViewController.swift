@@ -40,7 +40,15 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
 
     // MARK: - Layout
 
-    private var scrollView: ZoomableMediaView!
+    private var scrollView: ZoomableMediaView?
+
+    /// The view actually added to the hierarchy: `scrollView` (which wraps
+    /// `mediaView` for pinch-zoom) for ordinary media, or `mediaView` itself
+    /// for panorama content, which owns its own pan gesture and doesn't use
+    /// scroll-view-based zooming.
+    private var mediaContainerView: UIView {
+        scrollView ?? mediaView
+    }
 
     private var progressView: CVAttachmentProgressView?
     private(set) var mediaView: UIView!
@@ -56,7 +64,7 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
     private var downloadTask: Task<Void, Never>?
 
     func zoomOut(animated: Bool) {
-        scrollView.zoomOut(animated: animated)
+        scrollView?.zoomOut(animated: animated)
     }
 
     private func configureVideoPlaybackControls() {
@@ -91,18 +99,21 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
         zoomOut(animated: false)
         stopVideoIfPlaying()
 
-        mediaView.removeFromSuperview()
+        if let scrollView {
+            scrollView.delegate = nil
+            scrollView.removeFromSuperview()
+        } else {
+            mediaView.removeFromSuperview()
+        }
         mediaView = nil
-        scrollView.removeFromSuperview()
-        scrollView.delegate = nil
         scrollView = nil
 
         galleryItem = item
         configureMediaView()
 
-        view.addSubview(scrollView)
-        scrollView.autoPinEdgesToSuperviewEdges()
-        scrollView.layoutIfNeeded()
+        view.addSubview(mediaContainerView)
+        mediaContainerView.autoPinEdgesToSuperviewEdges()
+        mediaContainerView.layoutIfNeeded()
 
         // Video Playback controls
         if isVideo {
@@ -153,11 +164,19 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
         mediaView.layer.minificationFilter = .trilinear
         mediaView.layer.magnificationFilter = .trilinear
 
-        scrollView = ZoomableMediaView(mediaView: mediaView, onSingleTap: { [weak self] in
+        guard !(mediaView is PanoramaMediaView) else {
+            // Panorama content owns its own pan gesture for look-around and
+            // doesn't use scroll-view-based pinch zoom.
+            scrollView = nil
+            return
+        }
+
+        let scrollView = ZoomableMediaView(mediaView: mediaView, onSingleTap: { [weak self] in
             guard let self else { return }
             delegate?.mediaItemViewControllerDidTapMedia(self)
         })
         scrollView.delegate = self
+        self.scrollView = scrollView
     }
 
     private func buildMediaView() {
@@ -197,6 +216,11 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
             videoPlayerView.videoPlayer?.delegate = self
 
             view = videoPlayerView
+        } else if galleryItem.isPanorama, let image {
+            view = PanoramaMediaView(image: image, onSingleTap: { [weak self] in
+                guard let self else { return }
+                delegate?.mediaItemViewControllerDidTapMedia(self)
+            })
         } else if let image {
             // Present the static image using standard UIImageView
             view = UIImageView(image: image)
@@ -247,8 +271,10 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
         view.layoutIfNeeded()
         mediaView.frame = mediaView.frame
 
-        scrollView.updateZoomScaleForLayout()
-        scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView?.updateZoomScaleForLayout()
+        if let scrollView {
+            scrollView.zoomScale = scrollView.minimumZoomScale
+        }
     }
 
     private func downloadFullsizeIfNeeded(userInitiated: Bool) {
@@ -277,8 +303,8 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
 
         configureMediaView()
 
-        view.addSubview(scrollView)
-        scrollView.autoPinEdgesToSuperviewEdges()
+        view.addSubview(mediaContainerView)
+        mediaContainerView.autoPinEdgesToSuperviewEdges()
 
         // Video Playback controls
         if isVideo {
@@ -325,7 +351,7 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        scrollView.updateZoomScaleForLayout()
+        scrollView?.updateZoomScaleForLayout()
     }
 
     // MARK: - Helpers
@@ -385,8 +411,10 @@ extension MediaItemViewController: UIScrollViewDelegate {
 
 extension MediaItemViewController: LoopingVideoViewDelegate {
     func loopingVideoViewChangedPlayerItem() {
-        scrollView.updateZoomScaleForLayout()
-        scrollView.zoomScale = scrollView.minimumZoomScale
+        scrollView?.updateZoomScaleForLayout()
+        if let scrollView {
+            scrollView.zoomScale = scrollView.minimumZoomScale
+        }
     }
 }
 
@@ -409,7 +437,7 @@ extension MediaItemViewController: VideoPlayerViewDelegate {
         if let videoPlaybackStatusObserver, let videoPlayer = view.videoPlayer {
             videoPlaybackStatusObserver.videoPlayerStatusChanged(videoPlayer)
         }
-        scrollView.updateZoomScaleForLayout()
+        scrollView?.updateZoomScaleForLayout()
     }
 
     func videoPlayerViewPlaybackTimeDidChange(_ view: VideoPlayerView) {

@@ -21,11 +21,18 @@ protocol InteractiveDismissDelegate: AnyObject {
     func interactiveDismissDidCancel(_ interactiveDismiss: UIPercentDrivenInteractiveTransition)
 }
 
-class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition {
+class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition, UIGestureRecognizerDelegate {
     var interactionInProgress = false
 
     weak var interactiveDismissDelegate: InteractiveDismissDelegate?
     private weak var targetViewController: InteractivelyDismissableViewController?
+
+    /// Consulted before the swipe-to-dismiss gesture is allowed to begin.
+    /// Panorama content owns full 2-axis pan for look-around, so it returns
+    /// false while a panorama is on screen; edge-triggered dismiss (feeding
+    /// residual drag past the camera's pitch clamp into this same
+    /// interactive transition) is a separate follow-on refinement.
+    var shouldBeginDismissGesture: (() -> Bool)?
 
     init(targetViewController: InteractivelyDismissableViewController) {
         super.init()
@@ -40,7 +47,12 @@ class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition {
         )
         // Allow panning with trackpad
         gesture.allowedScrollTypesMask = .continuous
+        gesture.delegate = self
         view.addGestureRecognizer(gesture)
+    }
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return shouldBeginDismissGesture?() ?? true
     }
 
     // MARK: - Private

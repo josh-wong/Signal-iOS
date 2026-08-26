@@ -127,6 +127,10 @@ struct MediaGalleryItem:
         }
     }
 
+    var isPanorama: Bool {
+        referencedAttachment.asReferencedStream?.attachmentStream.isPanoramaCandidate ?? false
+    }
+
     var attachmentId: AttachmentReferenceId { referencedAttachment.reference.referenceId }
 
     typealias AsyncThumbnailBlock = @MainActor (UIImage) -> Void
