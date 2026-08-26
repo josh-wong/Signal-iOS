@@ -330,6 +330,18 @@ class MediaPageViewController: UIPageViewController {
         currentViewController.videoPlaybackStatusObserver = bottomMediaPanel
         showOrHideTopAndBottomPanelsAsNecessary(animated: animated)
         updateControlsForCurrentOrientation()
+
+        currentViewController.panoramaMediaView?.edgeDismissHandler = PanoramaEdgeDismissHandler(
+            didBegin: { [weak self] in
+                self?.mediaInteractiveDismiss.beginExternalDismiss()
+            },
+            didChangeProgress: { [weak self] progress, touchOffset in
+                self?.mediaInteractiveDismiss.updateExternalDismiss(progress: progress, touchOffset: touchOffset)
+            },
+            didEnd: { [weak self] finished in
+                self?.mediaInteractiveDismiss.endExternalDismiss(finished: finished)
+            },
+        )
     }
 
     // MARK: Show / hide toolbars

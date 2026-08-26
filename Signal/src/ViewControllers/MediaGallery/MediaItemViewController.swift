@@ -57,6 +57,8 @@ class MediaItemViewController: OWSViewController, VideoPlaybackStatusProvider {
     private var mediaViewTopConstraint: NSLayoutConstraint?
     private var mediaViewTrailingConstraint: NSLayoutConstraint?
 
+    var panoramaMediaView: PanoramaMediaView? { mediaView as? PanoramaMediaView }
+
     var videoPlayerView: VideoPlayerView? { mediaView as? VideoPlayerView }
     var videoPlayer: VideoPlayer? { videoPlayerView?.videoPlayer }
     private var buttonPlayVideo: UIButton?

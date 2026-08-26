@@ -55,9 +55,50 @@ class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition, UIGestureRe
         return shouldBeginDismissGesture?() ?? true
     }
 
+    /// Drives this interactive transition from an externally-owned gesture —
+    /// used by panorama content, whose own pan gesture (which needs full
+    /// 2-axis control for look-around) feeds in the residual drag past its
+    /// pitch clamp, rather than the `UIPanGestureRecognizer` added by
+    /// `addGestureRecognizer(to:)` driving this directly.
+    func beginExternalDismiss() {
+        beginDismiss()
+    }
+
+    func updateExternalDismiss(progress: CGFloat, touchOffset: CGPoint) {
+        changeDismiss(progress: progress, touchOffset: touchOffset)
+    }
+
+    func endExternalDismiss(finished: Bool) {
+        endDismiss(finished: finished)
+    }
+
     // MARK: - Private
 
     private static let distanceToCompletion: CGFloat = 88
+
+    private func beginDismiss() {
+        interactionInProgress = true
+        targetViewController?.performInteractiveDismissal(animated: true)
+    }
+
+    private func changeDismiss(progress: CGFloat, touchOffset: CGPoint) {
+        let clampedProgress = CGFloat.clamp01(progress)
+        update(clampedProgress)
+        interactiveDismissDelegate?.interactiveDismiss(self, didChangeProgress: clampedProgress, touchOffset: touchOffset)
+    }
+
+    private func endDismiss(finished: Bool) {
+        if finished {
+            finish()
+        } else {
+            cancel()
+        }
+
+        interactiveDismissDelegate?.interactiveDismissDidFinish(self)
+        targetViewController?.setNeedsStatusBarAppearanceUpdate()
+
+        interactionInProgress = false
+    }
 
     @objc
     private func handleGesture(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
@@ -72,15 +113,11 @@ class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition, UIGestureRe
 
         switch gestureRecognizer.state {
         case .began:
-            interactionInProgress = true
-            targetViewController?.performInteractiveDismissal(animated: true)
+            beginDismiss()
 
         case .changed:
             let offset = gestureRecognizer.translation(in: coordinateSpace)
-            let progress = CGFloat.clamp01(offset.length / Self.distanceToCompletion)
-            update(progress)
-
-            interactiveDismissDelegate?.interactiveDismiss(self, didChangeProgress: progress, touchOffset: offset)
+            changeDismiss(progress: offset.length / Self.distanceToCompletion, touchOffset: offset)
 
         case .cancelled:
             cancel()
@@ -91,26 +128,7 @@ class MediaInteractiveDismiss: UIPercentDrivenInteractiveTransition, UIGestureRe
             targetViewController?.setNeedsStatusBarAppearanceUpdate()
 
         case .ended:
-            let finishTransition = percentComplete > 0
-            if finishTransition {
-                finish()
-            } else {
-                cancel()
-            }
-
-            interactiveDismissDelegate?.interactiveDismissDidFinish(self)
-
-            // This logic is necessary to ensure correct status bar state
-            // both when transition is finished or canceled.
-            if finishTransition {
-                targetViewController?.setNeedsStatusBarAppearanceUpdate()
-            }
-
-            interactionInProgress = false
-
-            if !finishTransition {
-                targetViewController?.setNeedsStatusBarAppearanceUpdate()
-            }
+            endDismiss(finished: percentComplete > 0)
 
         default:
             break
