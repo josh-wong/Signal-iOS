@@ -37,6 +37,18 @@ public class PanoramaMediaView: UIView {
     private var yaw: CGFloat = 0
     private var pitch: CGFloat = 0
 
+    /// Look-around pan/pinch only consume touches once the user has
+    /// opted in via `enterImmersiveButton`. Otherwise the pan gesture
+    /// never begins, so it doesn't steal the horizontal swipe that
+    /// `MediaPageViewController` uses to page between media items.
+    public private(set) var isImmersive = false
+
+    /// Called when immersive mode is entered/exited, so the owner can
+    /// disable/re-enable `UIPageViewController`'s own paging gesture — our
+    /// `gestureRecognizerShouldBegin` override only gates gestures owned by
+    /// this view, it has no effect on gestures owned by other views.
+    public var immersiveModeDidChange: ((Bool) -> Void)?
+
     /// Points of drag past the pitch clamp, accumulated while the user
     /// continues dragging in the clamped direction. Drives the edge-triggered
     /// swipe-down-to-dismiss handoff to `edgeDismissHandler`.
@@ -74,6 +86,23 @@ public class PanoramaMediaView: UIView {
         static let inertiaDecayPerSecond: CGFloat = 0.05
         static let minInertiaAngularVelocity: CGFloat = 0.02
     }
+
+    private lazy var enterImmersiveButton: UIButton = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = OWSLocalizedString(
+            "PANORAMA_ENTER_IMMERSIVE_BUTTON",
+            value: "View in 360°",
+            comment: "Button overlaid on a 360° photo prompting the user to enter the interactive pan-around viewer.",
+        )
+        configuration.image = UIImage(systemName: "globe")
+        configuration.imagePadding = 6
+        configuration.baseBackgroundColor = UIColor.black.withAlphaComponent(0.6)
+        configuration.baseForegroundColor = .white
+        configuration.cornerStyle = .capsule
+        return UIButton(configuration: configuration, primaryAction: UIAction { [weak self] _ in
+            self?.enterImmersiveMode()
+        })
+    }()
 
     public init(image: UIImage, onSingleTap: @escaping () -> Void = {}) {
         self.sceneView = SCNView()
@@ -129,7 +158,27 @@ public class PanoramaMediaView: UIView {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap))
         sceneView.addGestureRecognizer(singleTap)
 
+        addSubview(enterImmersiveButton)
+        enterImmersiveButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            enterImmersiveButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            enterImmersiveButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
+
         updateCameraOrientation()
+    }
+
+    private func enterImmersiveMode() {
+        isImmersive = true
+        enterImmersiveButton.isHidden = true
+        immersiveModeDidChange?(true)
+    }
+
+    private func exitImmersiveMode() {
+        isImmersive = false
+        enterImmersiveButton.isHidden = false
+        cancelInertia()
+        immersiveModeDidChange?(false)
     }
 
     public required init?(coder: NSCoder) {
@@ -272,7 +321,11 @@ public class PanoramaMediaView: UIView {
 
     @objc
     private func handleSingleTap() {
-        singleTapGestureBlock()
+        if isImmersive {
+            exitImmersiveMode()
+        } else {
+            singleTapGestureBlock()
+        }
     }
 
     // MARK: -
@@ -283,6 +336,16 @@ public class PanoramaMediaView: UIView {
 }
 
 extension PanoramaMediaView: UIGestureRecognizerDelegate {
+    // `UIView` itself declares `gestureRecognizerShouldBegin(_:)` (used for
+    // its own built-in gesture handling), so satisfying the identically-named
+    // `UIGestureRecognizerDelegate` requirement here needs `override`.
+    override public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Look-around pan/pinch stay dormant until the user opts in via
+        // `enterImmersiveButton`, so they don't compete with the page
+        // view controller's own horizontal swipe-to-page gesture.
+        isImmersive
+    }
+
     public func gestureRecognizer(
         _ gestureRecognizer: UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer,

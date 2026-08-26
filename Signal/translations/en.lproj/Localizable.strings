@@ -6751,6 +6751,9 @@
 /* Title for sheet shown when tapping oversized text that has expired and is unavailable for download */
 "OVERSIZE_TEXT_UNAVAILABLE_SHEET_TITLE" = "Complete Message Not Available";
 
+/* Button overlaid on a 360° photo prompting the user to enter the interactive pan-around viewer. */
+"PANORAMA_ENTER_IMMERSIVE_BUTTON" = "View in 360°";
+
 /* Header title for bank payment details screen */
 "PAYMENT_DETAILS_BANK_TITLE" = "Bank Transfer";
 

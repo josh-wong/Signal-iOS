@@ -148,7 +148,7 @@ class MediaPageViewController: UIPageViewController {
 
         mediaInteractiveDismiss.addGestureRecognizer(to: view)
         mediaInteractiveDismiss.shouldBeginDismissGesture = { [weak self] in
-            !(self?.currentViewController?.galleryItem.isPanorama ?? false)
+            !(self?.currentViewController?.panoramaMediaView?.isImmersive ?? false)
         }
 
         navigationItem.titleView = headerView
@@ -342,6 +342,23 @@ class MediaPageViewController: UIPageViewController {
                 self?.mediaInteractiveDismiss.endExternalDismiss(finished: finished)
             },
         )
+        setPagingEnabled(!(currentViewController.panoramaMediaView?.isImmersive ?? false))
+        currentViewController.panoramaMediaView?.immersiveModeDidChange = { [weak self] isImmersive in
+            self?.setPagingEnabled(!isImmersive)
+        }
+    }
+
+    /// `UIPageViewController`'s own swipe-to-page gesture belongs to an
+    /// internal `UIScrollView`, not something we can influence through our
+    /// own gesture recognizers' delegate methods — so panorama content
+    /// disables it directly while immersive (look-around) mode owns the
+    /// pan gesture instead.
+    private var pagingScrollView: UIScrollView? {
+        view.subviews.compactMap { $0 as? UIScrollView }.first
+    }
+
+    private func setPagingEnabled(_ enabled: Bool) {
+        pagingScrollView?.isScrollEnabled = enabled
     }
 
     // MARK: Show / hide toolbars
